@@ -5,10 +5,13 @@ package framgia.employeemanagement;
  */
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +19,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 /********* Adapter class extends with BaseAdapter and implements with OnClickListener ************/
 public class EmployeeAdapter extends BaseAdapter{
+    private static final int VIEWMODE = 1;
+    private static final int ADDMODE = 2;
+    private static final int EDITMODE = 3;
     /*********** Declare Used Variables *********/
     private Activity activity;
     private ArrayList data;
     private static LayoutInflater inflater=null;
     public Resources res;
     Employee employee=null;
-    int i=0;
     /*************  EmployeeAdapter Constructor *****************/
     public EmployeeAdapter(Activity a, ArrayList d,Resources resLocal) {
         /********** Take passed values **********/
@@ -89,7 +95,7 @@ public class EmployeeAdapter extends BaseAdapter{
 
             /************  Set Model values in Holder elements ***********/
             //Display several data only
-            holder.text.setText( employee.getName() );
+            holder.text.setText(employee.getName());
             holder.text1.setText(employee.getPosition() + " /Leave date: " + employee.getLeaveDate());
             holder.image.setImageResource(
                     res.getIdentifier(
@@ -98,20 +104,40 @@ public class EmployeeAdapter extends BaseAdapter{
             vi.setBackgroundColor((employee.getLeaveDate() != "") ?
                     Color.argb(0x80, 0x80, 0x80, 0x80) : Color.argb(0, 0, 0, 0));
             /******** Set Item Click Listner for LayoutInflater for each row *******/
-            vi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.v("CustomAdapter", "=====Row button clicked=====");
-                }
-            });
             vi.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    return false;
+                    //Put up the Yes/No message box
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    builder
+                            .setMessage("Do you want to edit this employee?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Yes button clicked, do something
+                                    Intent intent = new Intent(activity,DisplayEmployeeDetailActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("DisplayMode",EDITMODE);
+                                    intent.putExtras(bundle);
+                                    activity.startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("No", null)						//Do nothing on no
+                            .show();
+                    return true;
                 }
             });
+            vi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity,DisplayEmployeeDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("DisplayMode", VIEWMODE);
+                    intent.putExtras(bundle);
+                    activity.startActivity(intent);
+            }
+        });
         }
         return vi;
     }
-
 }

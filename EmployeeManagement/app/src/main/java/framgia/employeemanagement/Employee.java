@@ -11,6 +11,7 @@ public class Employee {
     private  String Phone ="";
     private  String Department ="";
     private  String Position ="";
+    private  String Status ="";
     private  String JoinDate ="";
     private  String LeaveDate ="";
 
@@ -43,6 +44,10 @@ public class Employee {
     public void setPosition(String EmployeePosition)
     {
         this.Position = EmployeePosition;
+    }
+    public void setStatus(String EmployeeStatus)
+    {
+        this.Status = EmployeeStatus;
     }
     public void setJoinDate(String EmployeeJoinDate)
     {
@@ -81,6 +86,10 @@ public class Employee {
     public String getPosition()
     {
         return this.Position;
+    }
+    public String getStatus()
+    {
+        return this.Status;
     }
     public String getJoinDate()
     {

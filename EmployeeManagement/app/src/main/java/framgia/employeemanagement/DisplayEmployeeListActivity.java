@@ -1,42 +1,53 @@
 package framgia.employeemanagement;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 /**
  * Created by FRAMGIA\nguyen.huu.quyen on 05/10/2015.
  */
 public class DisplayEmployeeListActivity extends Activity{
-    ListView list;
-    EmployeeAdapter adapter;
-    public ArrayList<Employee> employeeArr = new ArrayList<Employee>();
-    public DisplayEmployeeListActivity employeeActivity = null;
+    private static ListView list;
+    private static EmployeeAdapter adapter;
+    private static TextView resultList;
+    private static Button buttonSearchOnList;
+    private static ArrayList<Employee> employeeArr = new ArrayList<Employee>();
+    private static DisplayEmployeeListActivity employeeActivity = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.display_employee_list);
+        setFindViewById();
+        //Update name of list data
+        updateNameDataList();
+        //set data to list
+        setListData();
+    }
+    public void setFindViewById(){
+        resultList = (TextView) findViewById(R.id.txList);
+        buttonSearchOnList = (Button)findViewById(R.id.btSearchList);
+    }
+    /****** Function to Update name of list data *************/
+    public void updateNameDataList(){
         Intent intent = getIntent();
         String Ename = intent.getStringExtra("EName");
         //Update name of departmmen
-        TextView textList = (TextView) findViewById(R.id.txList);
-        textList.setText(Ename);
-        /******** Take some data in Arraylist ( CustomListViewValuesArr ) ***********/
-        setListData();
-        employeeActivity = this;
-        Resources res = getResources();
-        list = (ListView) findViewById(R.id.listEmployee);  // List defined in XML ( See Below )
-        /**************** Create Custom Adapter *********/
-        adapter = new EmployeeAdapter(employeeActivity, employeeArr, res);
-        list.setAdapter(adapter);
+        resultList.setText(Ename);
     }
-
     /****** Function to set data in ArrayList *************/
     public void setListData()
     {
@@ -54,8 +65,13 @@ public class DisplayEmployeeListActivity extends Activity{
             }
             /******** Take Model Object in ArrayList **********/
             employeeArr.add(employee);
+            employeeActivity = this;
+            Resources res = getResources();
+            list = (ListView) findViewById(R.id.listEmployee);  // List defined in XML ( See Below )
+            /**************** Create Custom Adapter *********/
+            adapter = new EmployeeAdapter(employeeActivity, employeeArr, res);
+            list.setAdapter(adapter);
         }
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

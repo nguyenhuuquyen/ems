@@ -18,5 +18,9 @@
             android:name=".DisplayEmployeeListActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name=".DisplayEmployeeDetailActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 </manifest>
