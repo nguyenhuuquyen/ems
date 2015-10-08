@@ -2,7 +2,6 @@ package framgia.employeemanagement;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,21 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    private static final int VIEWMODE = 1;
     private static final int ADDMODE = 2;
-    private static final int EDITMODE = 3;
     private static Button btSearchMain;
     private static Button btAddnew;
     private static ListView listView;
     private static Spinner spinnerDepartment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +33,15 @@ public class MainActivity extends Activity {
         //set click listener on Add Button
         setAddButtonOnClickListener();
     }
-    public void setFindViewById(){
+
+    public void setFindViewById() {
         listView = (ListView) findViewById(R.id.listDivMain);
         spinnerDepartment = (Spinner) findViewById(R.id.spDepMain);
-        btSearchMain = (Button)findViewById(R.id.btSearchMain);
-        btAddnew = (Button)findViewById(R.id.btAdd);
+        btSearchMain = (Button) findViewById(R.id.btSearchMain);
+        btAddnew = (Button) findViewById(R.id.btAdd);
     }
-    private void setSpinnerMain(){
+
+    private void setSpinnerMain() {
         // Creat spinner for Department list
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapterSpiner = ArrayAdapter.createFromResource(this,
@@ -57,7 +51,8 @@ public class MainActivity extends Activity {
         // Apply the adapter to the spinner
         spinnerDepartment.setAdapter(adapterSpiner);
     }
-    private void setListViewMain(){
+
+    private void setListViewMain() {
         //Creat listview of Deparments
         // Create an ArrayAdapter using the string array and a default Listview layout
         ArrayAdapter<CharSequence> adapterListview = ArrayAdapter.createFromResource(this,
@@ -78,7 +73,8 @@ public class MainActivity extends Activity {
             }
         });
     }
-    private void setSearchButtonOnClickListener(){
+
+    private void setSearchButtonOnClickListener() {
         btSearchMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,11 +86,12 @@ public class MainActivity extends Activity {
             }
         });
     }
-    private void setAddButtonOnClickListener(){
+
+    private void setAddButtonOnClickListener() {
         btAddnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,DisplayEmployeeDetailActivity.class);
+                Intent intent = new Intent(MainActivity.this, DisplayEmployeeDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("DisplayMode", ADDMODE);
                 intent.putExtras(bundle);
@@ -102,12 +99,14 @@ public class MainActivity extends Activity {
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
